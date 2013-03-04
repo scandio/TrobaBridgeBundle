@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="scandio_troba_bridge.troba_manager.class">Scandio\TrobaBridgeBundle\Manager\TrobaManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="troba.entity_manager" class="%scandio_troba_bridge.troba_manager.class%">
+            <argument>%database_driver%</argument>
+            <argument>%database_host%</argument>
+            <argument>%database_port%</argument>
+            <argument>%database_name%</argument>
+            <argument>%database_user%</argument>
+            <argument>%database_password%</argument>
+        </service>
+    </services>
+</container>

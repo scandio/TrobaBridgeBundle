@@ -1,0 +1,33 @@
+{
+    "name": "scandio/troba-bridge-bundle",
+    "type": "symfony-bundle",
+    "description": "Bundle to use Troba in Symfony2.",
+    "keywords": ["orm", "troba", "bridge", "symfony2", "bundle", "scandio"],
+    "homepage": "https://github.com/scandio/TrobaBridgeBundle",
+    "license": "MIT",
+
+    "authors": [
+        {
+            "name": "Scandio GmbH",
+            "homepage": "http://www.scandio.de/"
+        },
+        {
+            "name": "Veit Osiander",
+            "homepage": "https://github.com/siklol"
+        }
+    ],
+
+    "require": {
+        "php":                      ">=5.3.3",
+        "symfony/framework-bundle": "~2.0",
+        "scandio/troba": "dev-master"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Scandio\\TrobaBridgeBundle": ""
+        }
+    },
+
+    "target-dir": "Scandio/TrobaBridgeBundle"
+}
