@@ -43,15 +43,21 @@ class TrobaManager
         $this->name = $name;
         $this->user = $user;
         $this->password = $password;
+    }
 
+    /**
+     * @param array $config
+     */
+    public function init($config = [])
+    {
         $init = [
-        'dsn' => "$this->driver:host=$this->host:$this->port;dbname=$this->name",
-        'username' => $this->user,
-        'password' => $this->password,
-        EQM::RUN_MODE => EQM::DEV_MODE, // todo: config can change mode
-    ];
+            'dsn' => "$this->driver:host=$this->host:$this->port;dbname=$this->name",
+            'username' => $this->user,
+            'password' => $this->password,
+            EQM::RUN_MODE => EQM::DEV_MODE, // todo: config can change mode
+        ];
 
-        EQM::initialize($init);
+        EQM::initialize(array_merge($init, $config));
     }
 
     /**
