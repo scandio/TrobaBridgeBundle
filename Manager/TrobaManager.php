@@ -52,6 +52,7 @@ class TrobaManager
      */
     public function init($config = [])
     {
+        $config = (array) $config;
         $init = [
             'dsn' => "$this->driver:host=$this->host;port=$this->port;dbname=$this->name",
             'username' => $this->user,
