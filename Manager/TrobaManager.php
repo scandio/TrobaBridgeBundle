@@ -50,17 +50,35 @@ class TrobaManager
     /**
      * @param array $config
      */
-    public function init($config = [])
+    public function init()
     {
-        $config = (array) $config;
+        /**
         $init = [
-            'dsn' => "$this->driver:host=$this->host;port=$this->port;dbname=$this->name",
-            'username' => $this->user,
-            'password' => $this->password,
-            EQM::RUN_MODE => EQM::DEV_MODE, // todo: config can change mode
+        'dsn' => "$this->driver:host=$this->host;port=$this->port;dbname=$this->name",
+        'username' => $this->user,
+        'password' => $this->password,
+        EQM::RUN_MODE => EQM::DEV_MODE, // todo: config can change mode
         ];
 
         EQM::initialize(array_merge($init, $config));
+         */
+        EQM::initialize(
+            new \PDO(
+                "mysql:host={$this->host};port={$this->port};dbname={$this->name}", $this->user, $this->password,
+                [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"]
+            )
+        /**
+         * TODO: ENABLE CONFIG
+         * TODO: ADD MONOLOG LOGGER DEPENDENCY
+         *
+        ,
+        [
+        EQM::CONVENTION_HANDLER => new ClassicConventionHandler(),
+        EQM::SQL_BUILDER => new MySqlBuilder(),
+        EQM::LOGGER => new Logger('troba.test', new StreamHandler(__DIR__ . '/troba-test.log', Logger::ERROR))
+        ]
+         */
+        );
     }
 
     /**
