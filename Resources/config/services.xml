@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="scandio_troba_bridge.troba_manager.class">Scandio\TrobaBridgeBundle\Manager\TrobaManager</parameter>
+        <parameter key="scandio_troba_bridge.duplicate_entity_validator.class">Scandio\TrobaBridgeBundle\Validator\Constraints\DuplicateEntityValidator</parameter>
     </parameters>
 
     <services>
@@ -18,6 +19,11 @@
             <argument>%database_password%</argument>
 
             <tag name="kernel.event_listener" event="kernel.controller" method="init"/>
+        </service>
+
+        <service id="scandio_troba_bridge.duplicate_entity_validator" class="%scandio_troba_bridge.duplicate_entity_validator.class%">
+            <argument type="service" id="troba.entity_manager" />
+            <tag name="validator.constraint_validator" alias="troba.duplicate_entity" />
         </service>
     </services>
 </container>
