@@ -1,0 +1,55 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    <div class="sf-toolbar-block">
+        <div class="sf-toolbar-icon">
+            <a href="{{ path('_profiler', { 'token': token, 'panel': name }) }}">
+                <img width="21" height="28" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAcCAMAAAC5xgRsAAAAZlBMVEX///////////////////////////////////////////////////////////////////////////////////////////+ZmZmZmZlISEhJSUmdnZ1HR0fR0dFZWVlpaWlfX18/Pz+puygPAAAAIXRSTlMACwwlJygpLzIzNjs8QEtMUmd6e32AucDBw8fIydTm6u5l8MjvAAAAo0lEQVR42r2P2Q6CMBBFL6XsZRGRfZv//0nbDBNEE19MnJeTc5ILKf58ahiUwzy/AJpIWwREwQnEXRdbGCLjrO+djWRvVMiJcigxB7viGogxDdJpSmHEmCVPS7YczJvgUu+CS30IvtbNYZMvsGVo2mVpG/kbm4auiCpdcC3YPCAhSpAdUzaAn6qPKZtUT6ZSzb4bi2hdo9MQ1nX4ASjfV+/4/Z40pyCHrNTbIgAAAABJRU5ErkJggg==">
+                <span class="sf-toolbar-status sf-toolbar-status-green"></span>
+                <span class="sf-toolbar-status">{{ 'DB Queries' | trans }}: {{ collector.data |length }}</span>
+            </a>
+        </div>
+        <div class="sf-toolbar-info">
+            <div class="sf-toolbar-info-piece">
+                <b>{{ 'Total DB queries' | trans }}</b>
+                <span class="sf-toolbar-status sf-toolbar-status-green">{{ collector.data |length }}</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block menu %}
+    <span class="label">
+        <span class="icon">
+            <img alt="Configuration" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAcCAMAAAC5xgRsAAAAZlBMVEX///////////////////////////////////////////////////////////////////////////////////////////+ZmZmZmZlISEhJSUmdnZ1HR0fR0dFZWVlpaWlfX18/Pz+puygPAAAAIXRSTlMACwwlJygpLzIzNjs8QEtMUmd6e32AucDBw8fIydTm6u5l8MjvAAAAo0lEQVR42r2P2Q6CMBBFL6XsZRGRfZv//0nbDBNEE19MnJeTc5ILKf58ahiUwzy/AJpIWwREwQnEXRdbGCLjrO+djWRvVMiJcigxB7viGogxDdJpSmHEmCVPS7YczJvgUu+CS30IvtbNYZMvsGVo2mVpG/kbm4auiCpdcC3YPCAhSpAdUzaAn6qPKZtUT6ZSzb4bi2hdo9MQ1nX4ASjfV+/4/Z40pyCHrNTbIgAAAABJRU5ErkJggg==">
+        </span>
+        <strong>{{ 'Troba DB Queries' | trans }}</strong>
+        <span class="count"><span>{{ collector.data |length }}</span></span>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>{{ 'Troba DB' | trans }}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'date' | trans }}</th>
+                <th>{{ 'level' | trans }}</th>
+                <th>{{ 'query' | trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for query in collector.data %}
+                <tr>
+                    <td>{{ query.datetime | date('Y-m-d H:i:s') }}</td>
+                    <td>{{ query.level }}</td>
+                    <td>{{ query.message }}</td>
+                </tr>
+                <tr>
+                    <td colspan="999">{{ dump(query.context) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

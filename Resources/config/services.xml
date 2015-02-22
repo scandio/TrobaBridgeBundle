@@ -7,6 +7,8 @@
     <parameters>
         <parameter key="scandio_troba_bridge.troba_manager.class">Scandio\TrobaBridgeBundle\Manager\TrobaManager</parameter>
         <parameter key="scandio_troba_bridge.duplicate_entity_validator.class">Scandio\TrobaBridgeBundle\Validator\Constraints\DuplicateEntityValidator</parameter>
+        <parameter key="data_collector.scandio_troba_bridge_logger.class">Scandio\TrobaBridgeBundle\DataCollector\SqlDataCollector</parameter>
+        <parameter key="troba.psr_logger.class">Scandio\TrobaBridgeBundle\Logger\SymfonyProfileLogger</parameter>
     </parameters>
 
     <services>
@@ -17,6 +19,7 @@
             <argument>%database_name%</argument>
             <argument>%database_user%</argument>
             <argument>%database_password%</argument>
+            <argument type="service" id="troba.psr_logger" />
 
             <tag name="kernel.event_listener" event="kernel.controller" method="init"/>
         </service>
@@ -25,5 +28,14 @@
             <argument type="service" id="troba.entity_manager" />
             <tag name="validator.constraint_validator" alias="troba.duplicate_entity" />
         </service>
+
+        <service id="troba.psr_logger" class="%troba.psr_logger.class%">
+        </service>
+
+        <service id="data_collector.scandio_troba_bridge_logger" class="%data_collector.scandio_troba_bridge_logger.class%">
+            <argument type="service" id="troba.psr_logger" />
+            <tag name="data_collector" template="ScandioTrobaBridgeBundle:DataCollector:profiler.html.twig" id="troba_sql_data_collector" />
+        </service>
+
     </services>
 </container>

@@ -1,7 +1,9 @@
 <?php
 namespace Scandio\TrobaBridgeBundle\Manager;
 
+use Psr\Log\LoggerInterface;
 use troba\EQM\EQM;
+use troba\EQM\PDOWrapper;
 
 class TrobaManager
 {
@@ -35,7 +37,12 @@ class TrobaManager
      */
     private $password;
 
-    public function __construct($driver, $host, $port, $name, $user, $password)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct($driver, $host, $port, $name, $user, $password, LoggerInterface $logger = null)
     {
         $this->driver = $driver;
         $this->host = $host;
@@ -43,6 +50,7 @@ class TrobaManager
         $this->name = $name;
         $this->user = $user;
         $this->password = $password;
+        $this->logger = $logger;
 
         $this->init();
     }
@@ -52,32 +60,14 @@ class TrobaManager
      */
     public function init()
     {
-        /**
-        $init = [
-        'dsn' => "$this->driver:host=$this->host;port=$this->port;dbname=$this->name",
-        'username' => $this->user,
-        'password' => $this->password,
-        EQM::RUN_MODE => EQM::DEV_MODE, // todo: config can change mode
-        ];
-
-        EQM::initialize(array_merge($init, $config));
-         */
+        $config = [];
+        $this->logger instanceof LoggerInterface && $config[PDOWrapper::LOGGER] = $this->logger;
         EQM::initialize(
             new \PDO(
                 "mysql:host={$this->host};port={$this->port};dbname={$this->name}", $this->user, $this->password,
                 [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"]
-            )
-        /**
-         * TODO: ENABLE CONFIG
-         * TODO: ADD MONOLOG LOGGER DEPENDENCY
-         *
-        ,
-        [
-        EQM::CONVENTION_HANDLER => new ClassicConventionHandler(),
-        EQM::SQL_BUILDER => new MySqlBuilder(),
-        EQM::LOGGER => new Logger('troba.test', new StreamHandler(__DIR__ . '/troba-test.log', Logger::ERROR))
-        ]
-         */
+            ),
+            $config
         );
     }
 
