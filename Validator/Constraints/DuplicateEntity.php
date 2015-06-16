@@ -19,6 +19,7 @@ class DuplicateEntity extends Constraint
     public $message = "There already exists a duplicate entry";
     public $class;
     public $field = "name";
+    public $checkId = true;
 
     /**
      * @return string
